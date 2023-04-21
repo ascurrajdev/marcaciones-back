@@ -63,6 +63,6 @@ class MarcacionesController extends Controller
             "overtime" => $overdueTime,
             "datetime" => now(),
         ]);
-        return $this->success($marcacion);
+        return new MarcacionResource($marcacion);
     }
 }

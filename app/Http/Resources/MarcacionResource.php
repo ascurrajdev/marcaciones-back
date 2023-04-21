@@ -17,9 +17,9 @@ class MarcacionResource extends JsonResource
         return [
             "id" => $this->resource->id,
             "type" => $this->resource->type,
-            "datetime" => $this->resource->datetime,
+            "datetime" => $this->resource->datetime->format("Y-m-d H:i:s"),
             "position" => $this->resource->position,
-            "overtime" => $this->resource->overtime,
+            "overtime" => $this->resource->overtime->format("H:i:s"),
             "user" => $this->whenLoaded("user"),
         ];
     }

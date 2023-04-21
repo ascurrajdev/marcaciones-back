@@ -14,6 +14,8 @@ class Marcacion extends Model
 
     protected $casts = [
         "position" => "array",
+        "datetime" => "datetime",
+        "overtime" => "datetime"
     ];
 
     public function user(){
