@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'department_id' => $this->resource->department_id,
             'role' => $this->whenLoaded("role"),
             'department' => $this->whenLoaded('department'),
-            'created_at' => $this->resource->created_at,
+            'created_at' => $this->resource->created_at->format("Y-m-d H:i:s"),
         ];
     }
 }

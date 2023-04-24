@@ -11,7 +11,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->tokenCan('user-store');
+        return $this->user()->tokenCan('users-store');
     }
 
     /**
@@ -25,8 +25,8 @@ class UserRequest extends FormRequest
             'name' => ['required','string'],
             'email' => ['required','email'],
             'password' => ['required','confirmed','min:8'],
-            'role_id' => ['required','exists:roles,id'],
-            'department_id' => ['required','exists:departments,id'],
+            'role_id' => ['exists:roles,id','nullable'],
+            'department_id' => ['exists:departments,id','nullable'],
         ];
     }
 }

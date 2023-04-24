@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -19,7 +20,10 @@ class UsersController extends Controller
         return UserResource::collection($users->get());
     }
 
-    // public function store(UserRequest $request){
-
-    // }
+    public function store(UserRequest $request){
+        $params = $request->validated();
+        $params['password'] = Hash::make($params['password']);
+        $user = User::create($params);
+        return new UserResource($user);
+    }
 }
