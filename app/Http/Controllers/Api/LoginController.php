@@ -18,14 +18,17 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request){
         $params = $request->validated();
-        $user = User::firstWhere("email", $params['email']);
+        $user = User::with(['role'])->firstWhere("email", $params['email']);
         if(!Hash::check($params['password'],$user->password)){
             throw ValidationException::withMessages([
                 "email" => "Las credenciales no coinciden",
             ]);
         }
-
-        $credentials = $user->createToken($request->userAgent());
+        $abilities = [];
+        if(!empty($user->role_id)){
+            $abilities = $user->role->abilities;
+        }
+        $credentials = $user->createToken($request->userAgent(), $abilities);
         return $this->success([
             "credentials" => [
                 "token" => $credentials->plainTextToken,
