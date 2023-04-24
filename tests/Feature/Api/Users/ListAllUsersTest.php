@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Users;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
@@ -15,9 +16,11 @@ class ListAllUsersTest extends TestCase
      */
     public function can_list_all_users_with_a_user_authenticated(): void
     {
+        $spy = $this->spy(UserResource::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user,['users-index']);
         $response = $this->getJson(route('api.users.index'));
+        $spy->shouldAllowMockingMethod("collection")->once();
         $response->assertSuccessful();
     }
     /**
