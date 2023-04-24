@@ -15,7 +15,11 @@ class MarcacionesController extends Controller
     use ResponseTrait;
     public function index(Request $request){
         $user = $request->user();
-        $marcaciones = Marcacion::hasUser($user->id)->get();
+        $marcaciones = Marcacion::hasUser($user->id);
+        foreach($request->input('filters',[]) as $key => $value){
+            $marcaciones->{$key}($value);
+        }
+        $marcaciones = $marcaciones->get();
         return MarcacionResource::collection($marcaciones);
     }
 
